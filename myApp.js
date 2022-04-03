@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 // Install and Set Up Mongoose
-console.log('uri', process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 // Create a Model
@@ -58,8 +57,12 @@ const findOneByFood = (food, done) => {
   })
 };
 
+// Use model.findById() to Search Your Database By _id
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findById({_id: personId, function(err, data){
+    if(err) return console.err(err);
+    done(null, data);
+  }});
 };
 
 const findEditThenSave = (personId, done) => {

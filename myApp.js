@@ -103,7 +103,7 @@ const removeById = (personId, done) => {
   });
 };
 
-// Delete Many Documents with model.remove()
+// Delete Many Documents with model.remove().
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
   Person.remove({name: nameToRemove}, (err, res) => {
@@ -112,10 +112,17 @@ const removeManyPeople = (done) => {
   });
 };
 
+// Chain Search Query Helpers to Narrow Search Results
 const queryChain = (done) => {
   const foodToSearch = "burrito";
-
-  done(null /*, data*/);
+  Person.find({favoriteFoods: foodToSearch})
+  .sort({ field: name })
+  .limit(2)
+  .select(['name', 'favoriteFoods'])
+  .exec((err, res) => { 
+    if(err) return console.err(err);
+    done(null, res);
+  })
 };
 
 /** **Well Done !!**

@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { save } = require('mongodb/lib/operations/collection_ops');
 const { Model } = require('mongoose');
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
@@ -65,10 +66,18 @@ const findPersonById = (personId, done) => {
   });
 };
 
+// Perform Classic Updates by Running Find, Edit, then Save
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
+  Person.findById(personId, (err, person) => {
+    if(err) { return console.error(err); }
 
-  done(null /*, data*/);
+    person.favoriteFoods.push(foodToAdd);
+    person.save((err, updatedPerson) => {
+      if(err) { return console.error(err); }
+      done(null, updatedPerson);
+    });
+  });
 };
 
 const findAndUpdate = (personName, done) => {

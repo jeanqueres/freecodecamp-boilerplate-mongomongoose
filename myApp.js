@@ -89,7 +89,7 @@ const findAndUpdate = (personName, done) => {
     (err, person) => {
       if(err) { return console.err(err); }
       person.age = 20;
-      data(null, person);
+      done(null, person);
     }, 
     { new: true }
   );

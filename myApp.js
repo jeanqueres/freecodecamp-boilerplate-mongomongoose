@@ -80,10 +80,19 @@ const findEditThenSave = (personId, done) => {
   });
 };
 
+// Perform New Updates on a Document Using model.findOneAndUpdate()
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
 
-  done(null /*, data*/);
+  Person.findOneAndUpdate(
+    {name: personName}, 
+    (err, person) => {
+      if(err) { return console.err(err); }
+      person.age = 20;
+      data(null, person);
+    }, 
+    { new: true }
+  );
 };
 
 const removeById = (personId, done) => {

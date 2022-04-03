@@ -1,10 +1,13 @@
 require('dotenv').config();
+const { Model } = require('mongoose');
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+// Install and Set Up Mongoose
 console.log('uri', process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
+// Create a Model
 let personSchema = new Schema({
   name: { type: String, required: true },
   age:  Number,
@@ -13,6 +16,7 @@ let personSchema = new Schema({
 
 let Person = mongoose.model('Person', personSchema);
 
+// Create and Save a Record of a Model
 const createAndSavePerson = (done) => {
   const person = new Person({
     name: "Jean",
@@ -24,6 +28,7 @@ const createAndSavePerson = (done) => {
   });
 };
 
+// Create Many Records with model.create()
 const arrayOfPeople = [
   {name: "Fulano", age: 30, favoriteFoods: ["Macarrão"]},
   {name: "Ciclano", age: 40, favoriteFoods: ["Frango"]},
@@ -37,8 +42,12 @@ const createManyPeople = (arrayOfPeople, done) => {
   });
 };
 
+// Use model.find() to Search Your Database
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+  Model.find({name: personName}, function(err, data) {
+    if(err) return console.err(err);
+    done(null, data);
+  })
 };
 
 const findOneByFood = (food, done) => {

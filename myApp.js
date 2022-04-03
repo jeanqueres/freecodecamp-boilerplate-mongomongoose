@@ -86,12 +86,12 @@ const findAndUpdate = (personName, done) => {
 
   Person.findOneAndUpdate(
     {name: personName}, 
-    (err, person) => {
+    {age: 20}, 
+    { new: true },
+    (err, updatedPerson) => {
       if(err) { return console.err(err); }
-      person.age = 20;
-      done(null, person);
-    }, 
-    { new: true }
+      done(null, updatedPerson);
+    }
   );
 };
 

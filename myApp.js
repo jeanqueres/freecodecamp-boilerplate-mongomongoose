@@ -121,8 +121,8 @@ const queryChain = (done) => {
   .select('-age')
   .exec((err, data) => { 
     if(err) return console.err(err);
-    done(null, data);
-  })
+    return done(null, data);
+  });
 };
 
 /** **Well Done !!**
